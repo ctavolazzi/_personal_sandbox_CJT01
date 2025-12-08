@@ -1,0 +1,9 @@
+{
+  "prompt": "Say 'Hello, test!' and nothing else.",
+  "response": {
+    "text": "Hello, test!",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T15:25:01.079441",
+  "model": "gemini-2.5-flash"
+}
