@@ -18,7 +18,7 @@ from config import api_config, MockConfig
 def mock_mode():
     """
     Fixture that sets MOCK mode for the test, restores after.
-    
+
     Usage:
         def test_something(mock_mode):
             # api_config is now in MOCK mode
@@ -26,12 +26,12 @@ def mock_mode():
     """
     original_mode = api_config.global_mode
     original_overrides = api_config.overrides.copy()
-    
+
     api_config.global_mode = "MOCK"
     api_config.clear_overrides()
-    
+
     yield api_config
-    
+
     # Restore
     api_config.global_mode = original_mode
     api_config.clear_overrides()
@@ -43,7 +43,7 @@ def mock_mode():
 def live_mode():
     """
     Fixture that sets LIVE mode for the test, restores after.
-    
+
     Usage:
         def test_real_api(live_mode):
             # api_config is now in LIVE mode
@@ -51,12 +51,12 @@ def live_mode():
     """
     original_mode = api_config.global_mode
     original_overrides = api_config.overrides.copy()
-    
+
     api_config.global_mode = "LIVE"
     api_config.clear_overrides()
-    
+
     yield api_config
-    
+
     # Restore
     api_config.global_mode = original_mode
     api_config.clear_overrides()
@@ -69,7 +69,7 @@ def fresh_config():
     """
     Fixture that provides a fresh MockConfig instance for the test.
     Does not affect the global api_config.
-    
+
     Usage:
         def test_config_behavior(fresh_config):
             fresh_config.global_mode = "LIVE"
@@ -83,7 +83,7 @@ def config_snapshot():
     """
     Fixture that saves and restores config state around a test.
     Use when you need to modify api_config but want automatic restoration.
-    
+
     Usage:
         def test_modifies_config(config_snapshot):
             api_config.global_mode = "LIVE"
@@ -93,9 +93,9 @@ def config_snapshot():
     """
     original_mode = api_config.global_mode
     original_overrides = api_config.overrides.copy()
-    
+
     yield api_config
-    
+
     # Restore
     api_config.global_mode = original_mode
     api_config.clear_overrides()

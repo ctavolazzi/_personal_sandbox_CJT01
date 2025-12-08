@@ -455,3 +455,12 @@ terraform.rc
 /temp/
 /tmp/
 
+# ==================================================
+# Private & Local-Only
+# ==================================================
+# Security scripts and reports - never commit
+.private/
+
+# Work efforts stay local - personal notes, plans, decisions
+_work_efforts_/
+

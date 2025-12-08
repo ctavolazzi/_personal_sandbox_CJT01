@@ -65,7 +65,7 @@ from config import mock_except, live_except
 # MOCK everything except these components
 mock_except("gemini", "fast_api")
 
-# LIVE everything except these components  
+# LIVE everything except these components
 live_except("slow_api", "expensive_api")
 ```
 
