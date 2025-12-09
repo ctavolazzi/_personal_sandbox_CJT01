@@ -1,0 +1,9 @@
+{
+  "prompt": "Write a short, engaging Instagram caption for this quote:\n\"Done is better than perfect.\" - Sheryl Sandberg\n\nInclude:\n- A hook (first line that grabs attention)\n- A brief 1-2 sentence reflection\n- 5 relevant hashtags\n- End with @Porchroot\n\nKeep it under 50 words total. No emojis in the first line.",
+  "response": {
+    "text": "Stuck aiming for perfection?\n\nProgress beats paralysis every time. Take that imperfect first step and iterate from there!\n\n#DoneIsBetterThanPerfect #JustStart #ActionTaker #ProgressOverPerfection #Motivation\n@Porchroot",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T17:59:14.393145",
+  "model": "gemini-2.5-flash"
+}

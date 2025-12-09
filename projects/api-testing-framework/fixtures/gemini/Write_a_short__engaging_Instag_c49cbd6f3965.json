@@ -1,0 +1,9 @@
+{
+  "prompt": "Write a short, engaging Instagram caption for this quote:\n\"Small daily improvements over time lead to stunning results.\" - Robin Sharma\n\nInclude:\n- A hook (first line that grabs attention)\n- A brief 1-2 sentence reflection\n- 5 relevant hashtags\n- End with @Porchroot\n\nKeep it under 50 words total. No emojis in the first line.",
+  "response": {
+    "text": "Unlock incredible results: \"Small daily improvements over time lead to stunning results.\" - Robin Sharma.\n\nEmbrace consistency over intensity. Each small effort compounds into something extraordinary.\n\n#DailyImprovements #ConsistencyIsKey #RobinSharma #SmallStepsBigResults #GrowthMindset\n@Porchroot",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T17:59:10.409714",
+  "model": "gemini-2.5-flash"
+}
