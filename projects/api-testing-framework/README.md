@@ -4,12 +4,21 @@ A testing framework with sophisticated mock/live control for API testing.
 
 > **Part of:** [_personal_sandbox_CJT01](../../README.md)
 
+## Supported Providers
+
+| Provider | Client | Model Default | Status |
+|----------|--------|---------------|--------|
+| **Google Gemini** | `gemini_client.py` | gemini-2.5-flash | ✅ Ready |
+| **OpenAI** | `openai_client.py` | gpt-4o-mini | ✅ Ready |
+| **Anthropic** | `anthropic_client.py` | claude-3-5-sonnet | ✅ Ready |
+
 ## Features
 
 - **Single Variable Control**: Change `api_config.global_mode` to toggle ALL components
 - **Granular Overrides**: Override specific components without changing others
 - **Fixture Capture**: Automatically saves live API responses for future mock tests
 - **Zero Config Mocking**: Just set mode to MOCK and fixtures are used automatically
+- **Multi-Provider**: Same pattern works for Gemini, OpenAI, and Anthropic
 
 ## Architecture Decision
 
@@ -29,10 +38,12 @@ See `../../scripts/evaluate_testing_framework.py` to run the full evaluation.
 # Install dependencies
 pip install -r requirements.txt
 
-# Set up your API key
-echo "GEMINI_API_KEY=your-key-here" > .env
+# Set up your API keys (.env file)
+GEMINI_API_KEY=your-gemini-key
+OPENAI_API_KEY=your-openai-key
+ANTHROPIC_API_KEY=your-anthropic-key
 
-# Run tests (mock mode by default)
+# Run tests (mock mode by default - 30 tests)
 pytest
 
 # Run tests with live API
@@ -99,30 +110,81 @@ def test_with_live(live_mode):
 
 ## API Client Usage
 
+### Gemini
 ```python
 from gemini_client import GeminiClient, generate_text
 
-# Using default client
-response = generate_text("Hello, world!")
-
-# Using custom client
-client = GeminiClient(capture_fixtures=True)
+client = GeminiClient()
 response = client.generate("What is 2+2?")
 print(response["text"])
+```
+
+### OpenAI
+```python
+from openai_client import OpenAIClient, generate_text
+
+client = OpenAIClient()  # Uses gpt-4o-mini by default
+response = client.generate("What is 2+2?")
+print(response["text"])
+
+# Or use GPT-4
+client = OpenAIClient(model="gpt-4")
+```
+
+### Anthropic
+```python
+from anthropic_client import AnthropicClient, generate_text
+
+client = AnthropicClient()  # Uses claude-3-5-sonnet by default
+response = client.generate("What is 2+2?")
+print(response["text"])
+
+# Or use Haiku for faster/cheaper
+client = AnthropicClient(model="claude-3-haiku-20240307")
+```
+
+### Multi-Provider Example
+```python
+from config import api_config, mock_except
+from gemini_client import GeminiClient
+from openai_client import OpenAIClient
+from anthropic_client import AnthropicClient
+
+# All MOCK except OpenAI (for comparison testing)
+mock_except("openai")
+
+gemini = GeminiClient()
+openai = OpenAIClient()
+claude = AnthropicClient()
+
+prompt = "Explain quantum computing in one sentence."
+
+# Only OpenAI makes a real API call
+responses = {
+    "gemini": gemini.generate_text(prompt),   # From fixture
+    "openai": openai.generate_text(prompt),   # Live API
+    "claude": claude.generate_text(prompt),   # From fixture
+}
 ```
 
 ## File Structure
 
 ```
 api-testing-framework/
-├── config.py           # MockConfig class and api_config instance
-├── gemini_client.py    # Gemini API client with mock/live support
-├── fixtures/           # Auto-captured API responses
-│   └── gemini/         # Gemini-specific fixtures
+├── config.py             # MockConfig class and api_config instance
+├── gemini_client.py      # Gemini API client with mock/live support
+├── openai_client.py      # OpenAI API client with mock/live support
+├── anthropic_client.py   # Anthropic API client with mock/live support
+├── fixtures/             # Auto-captured API responses
+│   ├── gemini/           # Gemini-specific fixtures
+│   ├── openai/           # OpenAI-specific fixtures
+│   └── anthropic/        # Anthropic-specific fixtures
 ├── tests/
-│   ├── conftest.py     # pytest fixtures (mock_mode, live_mode, etc.)
-│   ├── test_config.py  # Tests for config system
-│   └── test_gemini.py  # Tests for Gemini client
+│   ├── conftest.py       # pytest fixtures (mock_mode, live_mode, etc.)
+│   ├── test_config.py    # Tests for config system
+│   ├── test_gemini.py    # Tests for Gemini client
+│   ├── test_openai.py    # Tests for OpenAI client
+│   └── test_anthropic.py # Tests for Anthropic client
 ├── requirements.txt
 └── README.md
 ```
@@ -160,11 +222,15 @@ pytest --cov=. --cov-report=term-missing
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `API_MODE` | Global mode (LIVE/MOCK) | MOCK |
-| `GEMINI_API_KEY` | Gemini API key | Required for LIVE |
+| `GEMINI_API_KEY` | Gemini API key | Required for LIVE gemini |
+| `OPENAI_API_KEY` | OpenAI API key | Required for LIVE openai |
+| `ANTHROPIC_API_KEY` | Anthropic API key | Required for LIVE anthropic |
 
 ## Dependencies
 
 - `google-generativeai` - Gemini API client
+- `openai` - OpenAI API client
+- `anthropic` - Anthropic API client
 - `python-dotenv` - Environment variable management
 - `pytest` - Testing framework
 

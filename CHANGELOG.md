@@ -23,8 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Per-component overrides with `set_override()`
   - Convenience functions: `mock_except()`, `live_except()`
 - **Gemini API Client** - Full client with fixture capture/replay
+- **OpenAI API Client** - GPT-4/3.5 with fixture capture/replay
+- **Anthropic API Client** - Claude with fixture capture/replay
 - **Fixture System** - Auto-captures live responses for mock tests
-- **Test Suite** - 21 passing tests (config, mock, live)
+- **Test Suite** - 30 passing tests (config, mock, live, all providers)
 
 #### Documentation
 - `README.md` - Project overview with directory guide
@@ -57,10 +59,24 @@ _personal_sandbox_CJT01/
 
 ## [Unreleased]
 
+### Added
+- **OpenAI API Client** (`openai_client.py`) - GPT-4/3.5 with mock/live support
+- **Anthropic API Client** (`anthropic_client.py`) - Claude with mock/live support
+- Test suites for new clients (30 total tests, up from 21)
+- Fixture directories for OpenAI and Anthropic
+
+### Changed
+- Updated `requirements.txt` with `openai` and `anthropic` packages
+- Updated API testing framework README with multi-provider documentation
+
+### Technical Decisions
+- Used decision matrix to select "Expand API Framework" direction (score: 8.75/10)
+- Maintained same pattern across all providers for consistency
+
 ### Planned
-- Additional API clients (OpenAI, Anthropic)
 - More utilities in `tools/`
 - Enhanced fixture management
+- Unified multi-provider interface
 
 [0.1.0]: https://github.com/ctavolazzi/_personal_sandbox_CJT01/releases/tag/v0.1.0
 [Unreleased]: https://github.com/ctavolazzi/_personal_sandbox_CJT01/compare/v0.1.0...HEAD
