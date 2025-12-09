@@ -1,0 +1,10 @@
+# Porchroot Auto Dependencies
+
+# Image generation
+Pillow>=10.0.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Gemini API (inherited from api-testing-framework, but listed for clarity)
+google-generativeai>=0.3.0
