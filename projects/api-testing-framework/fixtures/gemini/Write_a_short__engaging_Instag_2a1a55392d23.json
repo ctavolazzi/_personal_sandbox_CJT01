@@ -1,0 +1,9 @@
+{
+  "prompt": "Write a short, engaging Instagram caption for this quote:\n\"The secret of getting ahead is getting started.\" - Mark Twain\n\nInclude:\n- A hook (first line that grabs attention)\n- A brief 1-2 sentence reflection\n- 5 relevant hashtags\n- End with @Porchroot\n\nKeep it under 50 words total. No emojis in the first line.",
+  "response": {
+    "text": "Want to get ahead?\n\nMark Twain's wisdom is simple: The key isn't perfection, it's just *starting*. Ditch the hesitation and take that first step today.\n\n#GetStarted #TakeAction #Motivation #SuccessTips #MarkTwain\n@Porchroot",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T17:49:31.562096",
+  "model": "gemini-2.5-flash"
+}
