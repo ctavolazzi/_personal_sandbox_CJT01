@@ -2,12 +2,26 @@
 
 A testing framework with sophisticated mock/live control for API testing.
 
+> **Part of:** [_personal_sandbox_CJT01](../../README.md)
+
 ## Features
 
 - **Single Variable Control**: Change `api_config.global_mode` to toggle ALL components
 - **Granular Overrides**: Override specific components without changing others
 - **Fixture Capture**: Automatically saves live API responses for future mock tests
 - **Zero Config Mocking**: Just set mode to MOCK and fixtures are used automatically
+
+## Architecture Decision
+
+This framework uses the **Config Dict + Overrides** pattern, selected via weighted decision matrix analysis (score: 4.85/5.00).
+
+**Why this approach:**
+- Maximum simplicity - just a Python dict, no magic
+- Single toggle - change one value and everything follows
+- Full granular control - add component overrides to one dict
+- Test-friendly - swap entire config in pytest fixtures
+
+See `../../scripts/evaluate_testing_framework.py` to run the full evaluation.
 
 ## Quick Start
 
@@ -136,6 +150,9 @@ pytest -m "not live"
 
 # Verbose output
 pytest -v
+
+# See test coverage
+pytest --cov=. --cov-report=term-missing
 ```
 
 ## Environment Variables
@@ -145,3 +162,32 @@ pytest -v
 | `API_MODE` | Global mode (LIVE/MOCK) | MOCK |
 | `GEMINI_API_KEY` | Gemini API key | Required for LIVE |
 
+## Dependencies
+
+- `google-generativeai` - Gemini API client
+- `python-dotenv` - Environment variable management
+- `pytest` - Testing framework
+
+## Extending to Other APIs
+
+To add a new API client:
+
+1. Create `new_client.py` following `gemini_client.py` pattern
+2. Use `api_config.get_mode("new_api")` to check mode
+3. Create fixtures directory: `fixtures/new_api/`
+4. Add tests in `tests/test_new_api.py`
+
+```python
+# Example: new_client.py
+from config import api_config
+
+class NewClient:
+    def __init__(self):
+        self.mode = api_config.get_mode("new_api")
+
+    def call_api(self, params):
+        if self.mode == "MOCK":
+            return self._load_fixture(params)
+        else:
+            return self._call_live(params)
+```
