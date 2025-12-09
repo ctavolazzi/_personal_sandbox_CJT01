@@ -1,0 +1,9 @@
+{
+  "prompt": "Write a short, engaging Instagram caption for this quote:\n\"The only way to do great work is to love what you do.\" - Steve Jobs\n\nInclude:\n- A hook (first line that grabs attention)\n- A brief 1-2 sentence reflection\n- 5 relevant hashtags\n- End with @Porchroot\n\nKeep it under 50 words total. No emojis in the first line.",
+  "response": {
+    "text": "What truly lights you up?\n\n\"The only way to do great work is to love what you do.\" - Steve Jobs\n\nFind your passion, and watch ordinary tasks transform into extraordinary achievements.\n\n#LoveWhatYouDo #PassionDriven #GreatWork #SteveJobs #Purpose\n@Porchroot",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T17:45:45.588217",
+  "model": "gemini-2.5-flash"
+}
