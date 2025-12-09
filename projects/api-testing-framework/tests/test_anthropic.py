@@ -9,8 +9,10 @@ from pathlib import Path
 
 from config import api_config
 from anthropic_client import AnthropicClient, FIXTURES_DIR
+from conftest import skip_without_anthropic
 
 
+@pytest.mark.mock
 class TestAnthropicClientMock:
     """Tests using mock mode (no API calls)."""
 
@@ -54,12 +56,14 @@ class TestAnthropicClientMock:
 
 
 @pytest.mark.live
+@skip_without_anthropic
 class TestAnthropicClientLive:
     """
     Tests that make real API calls.
 
     Run with: pytest -m live
     Skip with: pytest -m "not live"
+    Requires: ANTHROPIC_API_KEY environment variable
     """
 
     def test_live_api_connection(self, live_mode):

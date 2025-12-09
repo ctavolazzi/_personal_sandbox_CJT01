@@ -9,8 +9,10 @@ from pathlib import Path
 
 from config import api_config
 from openai_client import OpenAIClient, FIXTURES_DIR
+from conftest import skip_without_openai
 
 
+@pytest.mark.mock
 class TestOpenAIClientMock:
     """Tests using mock mode (no API calls)."""
 
@@ -54,12 +56,14 @@ class TestOpenAIClientMock:
 
 
 @pytest.mark.live
+@skip_without_openai
 class TestOpenAIClientLive:
     """
     Tests that make real API calls.
 
     Run with: pytest -m live
     Skip with: pytest -m "not live"
+    Requires: OPENAI_API_KEY environment variable
     """
 
     def test_live_api_connection(self, live_mode):

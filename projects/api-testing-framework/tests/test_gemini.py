@@ -9,8 +9,10 @@ from pathlib import Path
 
 from config import api_config
 from gemini_client import GeminiClient, FIXTURES_DIR
+from conftest import skip_without_google
 
 
+@pytest.mark.mock
 class TestGeminiClientMock:
     """Tests using mock mode (no API calls)."""
 
@@ -44,12 +46,14 @@ class TestGeminiClientMock:
 
 
 @pytest.mark.live
+@skip_without_google
 class TestGeminiClientLive:
     """
     Tests that make real API calls.
 
     Run with: pytest -m live
     Skip with: pytest -m "not live"
+    Requires: GOOGLE_API_KEY environment variable
     """
 
     def test_live_api_connection(self, live_mode):

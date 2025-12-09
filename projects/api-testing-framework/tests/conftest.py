@@ -4,6 +4,7 @@ Pytest Configuration and Fixtures
 Provides fixtures for controlling mock/live behavior in tests.
 """
 
+import os
 import pytest
 import sys
 from pathlib import Path
@@ -12,6 +13,29 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import api_config, MockConfig
+
+
+# =============================================================================
+# API KEY AVAILABILITY CHECKS
+# =============================================================================
+
+HAS_ANTHROPIC_KEY = bool(os.getenv("ANTHROPIC_API_KEY"))
+HAS_OPENAI_KEY = bool(os.getenv("OPENAI_API_KEY"))
+HAS_GOOGLE_KEY = bool(os.getenv("GOOGLE_API_KEY"))
+
+# Skip decorators for live tests
+skip_without_anthropic = pytest.mark.skipif(
+    not HAS_ANTHROPIC_KEY,
+    reason="ANTHROPIC_API_KEY not set"
+)
+skip_without_openai = pytest.mark.skipif(
+    not HAS_OPENAI_KEY,
+    reason="OPENAI_API_KEY not set"
+)
+skip_without_google = pytest.mark.skipif(
+    not HAS_GOOGLE_KEY,
+    reason="GOOGLE_API_KEY not set"
+)
 
 
 @pytest.fixture
@@ -113,6 +137,27 @@ def pytest_configure(config):
         "markers", "live: mark test as requiring live API access"
     )
     config.addinivalue_line(
+        "markers", "mock: mark test as using mock mode (no API calls)"
+    )
+    config.addinivalue_line(
         "markers", "slow: mark test as slow running"
     )
+
+
+# =============================================================================
+# HELPFUL TEST COMMANDS
+# =============================================================================
+# Run only mock tests (always pass, no API keys needed):
+#   pytest -m mock
+#
+# Run only live tests (requires API keys):
+#   pytest -m live
+#
+# Run everything except live tests:
+#   pytest -m "not live"
+#
+# Run tests for a specific provider:
+#   pytest tests/test_gemini.py
+#   pytest tests/test_anthropic.py
+#   pytest tests/test_openai.py
 
