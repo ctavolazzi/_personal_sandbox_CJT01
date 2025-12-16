@@ -11,6 +11,7 @@ A testing framework with sophisticated mock/live control for API testing.
 | **Google Gemini** | `gemini_client.py` | gemini-2.5-flash | ✅ Ready |
 | **OpenAI** | `openai_client.py` | gpt-4o-mini | ✅ Ready |
 | **Anthropic** | `anthropic_client.py` | claude-3-5-sonnet | ✅ Ready |
+| **Pixel Lab** | `pixellab_client.py` | v2 API | ✅ Ready |
 
 ## Features
 
@@ -18,7 +19,7 @@ A testing framework with sophisticated mock/live control for API testing.
 - **Granular Overrides**: Override specific components without changing others
 - **Fixture Capture**: Automatically saves live API responses for future mock tests
 - **Zero Config Mocking**: Just set mode to MOCK and fixtures are used automatically
-- **Multi-Provider**: Same pattern works for Gemini, OpenAI, and Anthropic
+- **Multi-Provider**: Same pattern works for Gemini, OpenAI, Anthropic, and Pixel Lab
 
 ## Architecture Decision
 
@@ -42,6 +43,7 @@ pip install -r requirements.txt
 GEMINI_API_KEY=your-gemini-key
 OPENAI_API_KEY=your-openai-key
 ANTHROPIC_API_KEY=your-anthropic-key
+PIXELLAB_API_KEY=your-pixellab-key
 
 # Run tests (mock mode by default - 30 tests)
 pytest
@@ -143,6 +145,27 @@ print(response["text"])
 client = AnthropicClient(model="claude-3-haiku-20240307")
 ```
 
+### Pixel Lab
+```python
+from pixellab_client import PixelLabClient, generate_image
+
+client = PixelLabClient()
+response = client.generate_image(
+    description="a cute wizard with a blue hat",
+    width=64,
+    height=64
+)
+# response["images"] contains list of base64-encoded images
+
+# Create character with 4 directions
+character = client.create_character_4_directions(
+    description="brave knight with shining armor",
+    width=64,
+    height=64
+)
+# Returns character_id and background_job_id for async processing
+```
+
 ### Multi-Provider Example
 ```python
 from config import api_config, mock_except
@@ -175,16 +198,19 @@ api-testing-framework/
 ├── gemini_client.py      # Gemini API client with mock/live support
 ├── openai_client.py      # OpenAI API client with mock/live support
 ├── anthropic_client.py   # Anthropic API client with mock/live support
+├── pixellab_client.py    # Pixel Lab API client with mock/live support
 ├── fixtures/             # Auto-captured API responses
 │   ├── gemini/           # Gemini-specific fixtures
 │   ├── openai/           # OpenAI-specific fixtures
-│   └── anthropic/        # Anthropic-specific fixtures
+│   ├── anthropic/        # Anthropic-specific fixtures
+│   └── pixellab/         # Pixel Lab-specific fixtures
 ├── tests/
 │   ├── conftest.py       # pytest fixtures (mock_mode, live_mode, etc.)
 │   ├── test_config.py    # Tests for config system
 │   ├── test_gemini.py    # Tests for Gemini client
 │   ├── test_openai.py    # Tests for OpenAI client
-│   └── test_anthropic.py # Tests for Anthropic client
+│   ├── test_anthropic.py # Tests for Anthropic client
+│   └── test_pixellab.py  # Tests for Pixel Lab client
 ├── requirements.txt
 └── README.md
 ```
@@ -225,12 +251,14 @@ pytest --cov=. --cov-report=term-missing
 | `GEMINI_API_KEY` | Gemini API key | Required for LIVE gemini |
 | `OPENAI_API_KEY` | OpenAI API key | Required for LIVE openai |
 | `ANTHROPIC_API_KEY` | Anthropic API key | Required for LIVE anthropic |
+| `PIXELLAB_API_KEY` | Pixel Lab API key | Required for LIVE pixellab |
 
 ## Dependencies
 
 - `google-generativeai` - Gemini API client
 - `openai` - OpenAI API client
 - `anthropic` - Anthropic API client
+- `requests` - HTTP client for Pixel Lab API
 - `python-dotenv` - Environment variable management
 - `pytest` - Testing framework
 
