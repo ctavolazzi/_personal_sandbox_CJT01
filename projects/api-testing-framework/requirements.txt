@@ -2,11 +2,15 @@
 
 # Core
 python-dotenv>=1.0.0
+requests>=2.31.0             # HTTP client for Pixel Lab API
 
 # LLM API Clients
 google-generativeai>=0.3.0  # Gemini
 openai>=1.0.0               # OpenAI (GPT-4, GPT-3.5)
 anthropic>=0.18.0           # Anthropic (Claude)
+
+# Image Generation API Clients
+# Pixel Lab uses requests library (no separate SDK)
 
 # Testing
 pytest>=7.0.0
