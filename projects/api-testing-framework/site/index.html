@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUCID | The Antidote to Noise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cursor-size: 300px;
+            --x: 50vw;
+            --y: 50vh;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        body.revealed {
+            cursor: auto;
+        }
+        
+        h1, h2, h3, .brand-font {
+            font-family: 'Archivo', sans-serif;
+        }
+
+        /* The Blurred Layer (Brain Fog) */
+        #blur-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+            backdrop-filter: blur(12px) grayscale(50%);
+            -webkit-backdrop-filter: blur(12px) grayscale(50%);
+            mask-image: radial-gradient(circle at var(--x) var(--y), transparent 0%, transparent 150px, black 200px);
+            -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), transparent 0%, transparent 150px, black 200px);
+            transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+        }
+
+        body.revealed #blur-container {
+            opacity: 0;
+            mask-image: none;
+            -webkit-mask-image: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        /* Custom Cursor/Lens Ring */
+        #lens-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 2px solid #000;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 30;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            transition: width 0.2s, height 0.2s, opacity 0.3s ease;
+        }
+
+        body.revealed #lens-ring {
+            opacity: 0;
+        }
+
+        /* Elements that follow mouse slightly */
+        .parallax {
+            transition: transform 0.1s ease-out;
+        }
+
+        .sharp-text {
+            color: #000;
+        }
+
+        /* High Contrast Utility */
+        .bg-stark { background-color: #000; color: #fff; }
+        .text-stark-blue { color: #2563EB; }
+
+        /* Reveal button */
+        #reveal-toggle {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 40;
+            background: #000;
+            color: #fff;
+            padding: 0.85rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid #000;
+            transition: transform 0.1s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        #reveal-toggle:hover {
+            transform: translateY(-2px);
+            background: #2563EB;
+            border-color: #2563EB;
+        }
+
+        #reveal-toggle .icon {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: inset 0 0 0 2px #000;
+        }
+
+        body.revealed #reveal-toggle {
+            background: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+        body.revealed #reveal-toggle .icon {
+            box-shadow: inset 0 0 0 2px #2563EB;
+            color: #2563EB;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+            #lens-ring {
+                display: none;
+            }
+            #blur-container {
+                mask-image: none;
+                -webkit-mask-image: none;
+            }
+            #reveal-toggle {
+                bottom: 16px;
+                right: 16px;
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col" id="main-body">
+
+    <!-- The Blur Overlay (The Fog) -->
+    <div id="blur-container"></div>
+
+    <!-- The Lens Cursor -->
+    <div id="lens-ring"></div>
+
+    <!-- Navigation -->
+    <nav class="w-full p-8 flex justify-between items-center fixed top-0 z-10 bg-white/80 backdrop-blur-sm">
+        <div class="text-3xl font-extrabold tracking-tighter brand-font uppercase">Lucid.</div>
+        <div class="hidden md:flex gap-8 text-sm font-bold tracking-widest uppercase">
+            <a href="#manifesto" class="hover:text-blue-600 transition-colors">Manifesto</a>
+            <a href="#signal" class="hover:text-blue-600 transition-colors">The Signal</a>
+            <a href="#stack" class="hover:text-blue-600 transition-colors">Stack</a>
+        </div>
+        <a href="#join" class="px-6 py-2 bg-black text-white text-sm font-bold uppercase tracking-wider hover:bg-blue-600 transition-colors">
+            Get Sharp
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-grow flex items-center justify-center relative px-4 pt-24">
+        <!-- Abstract geometric background -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-10">
+            <div class="absolute top-1/4 left-10 w-96 h-96 border-[20px] border-black rounded-full mix-blend-multiply parallax" data-speed="0.02"></div>
+            <div class="absolute bottom-1/4 right-10 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply parallax" data-speed="0.04"></div>
+        </div>
+
+        <div class="max-w-5xl w-full text-center space-y-10">
+            
+            <div id="manifesto" class="inline-block border-b-2 border-black pb-1 mb-4">
+                <span class="text-sm font-bold uppercase tracking-[0.3em]">The Antidote to Noise</span>
+            </div>
+
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter leading-none parallax" data-speed="0.01">
+                SEE THE <br>
+                <span class="text-blue-600">VIVID</span> TRUTH.
+            </h1>
+
+            <p class="text-xl md:text-2xl font-light max-w-3xl mx-auto leading-relaxed text-gray-800">
+                Built on this repo's API testing framework: fixture capture, instant mock/live flips, and multi-model sanity checks.
+                The fog lifts wherever you point, then disappears entirely when you're ready.
+            </p>
+
+            <!-- Feature Columns -->
+            <div id="signal" class="grid grid-cols-1 md:grid-cols-3 gap-0 mt-20 border-t border-b border-black divide-y md:divide-y-0 md:divide-x divide-black">
+                <div class="p-10 group hover:bg-black hover:text-white transition-colors duration-300">
+                    <h3 class="text-4xl font-bold mb-2">01.</h3>
+                    <h4 class="text-lg font-bold uppercase tracking-wider mb-4">Single Switch</h4>
+                    <p class="text-sm opacity-80 leading-6">Flip the whole stack between LIVE and MOCK without touching a test. One toggle governs every request.</p>
+                </div>
+                <div class="p-10 group hover:bg-blue-600 hover:text-white transition-colors duration-300">
+                    <h3 class="text-4xl font-bold mb-2">02.</h3>
+                    <h4 class="text-lg font-bold uppercase tracking-wider mb-4">Captured Signal</h4>
+                    <p class="text-sm opacity-80 leading-6">Live calls store fixtures automatically. Replays stay deterministic, letting you interrogate the core data.</p>
+                </div>
+                <div class="p-10 group hover:bg-black hover:text-white transition-colors duration-300">
+                    <h3 class="text-4xl font-bold mb-2">03.</h3>
+                    <h4 class="text-lg font-bold uppercase tracking-wider mb-4">Provider Parity</h4>
+                    <p class="text-sm opacity-80 leading-6">Gemini, OpenAI, Anthropic - identical ergonomics, instant swaps, and consistent coverage in one harness.</p>
+                </div>
+            </div>
+
+            <!-- Stack CTA -->
+            <div id="stack" class="mt-16 grid md:grid-cols-3 gap-8 text-left">
+                <div class="p-6 border-2 border-black bg-white shadow-lg">
+                    <p class="text-sm uppercase tracking-[0.25em] font-bold mb-2">Mode Control</p>
+                    <p class="text-lg font-semibold">`api_config.global_mode`</p>
+                    <p class="text-sm text-gray-700 mt-2 leading-6">Two letters define your entire posture: LIVE for fresh thinking, MOCK for speed and safety.</p>
+                </div>
+                <div class="p-6 border-2 border-black bg-white shadow-lg">
+                    <p class="text-sm uppercase tracking-[0.25em] font-bold mb-2">Overrides</p>
+                    <p class="text-lg font-semibold">`mock_except()` / `live_except()`</p>
+                    <p class="text-sm text-gray-700 mt-2 leading-6">Isolate one provider or silence the rest. Precision adjustments without config sprawl.</p>
+                </div>
+                <div class="p-6 border-2 border-black bg-white shadow-lg">
+                    <p class="text-sm uppercase tracking-[0.25em] font-bold mb-2">Fixtures</p>
+                    <p class="text-lg font-semibold">`fixtures/<provider>/`</p>
+                    <p class="text-sm text-gray-700 mt-2 leading-6">Captured responses become the crisp layer you can test against - no speculation, just data.</p>
+                </div>
+            </div>
+
+            <!-- Email Capture -->
+            <div id="join" class="mt-20 max-w-xl mx-auto pb-20">
+                <form class="flex border-2 border-black p-1 bg-white relative" onsubmit="event.preventDefault(); this.innerHTML='<div class=\'w-full text-center py-4 font-bold bg-black text-white\'>FOCUS ACQUIRED.</div>'">
+                    <input type="email" placeholder="Enter email for release notes" 
+                        class="flex-grow bg-transparent px-6 py-4 font-bold outline-none placeholder:text-gray-400 text-black uppercase tracking-wider"
+                        required>
+                    <button type="submit" class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-blue-600 transition-colors">
+                        Initiate
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-black p-8 text-center text-xs font-bold uppercase tracking-widest">
+        &copy; 2024 Lucid Systems. All Rights Reserved.
+    </footer>
+
+    <!-- Reveal Toggle -->
+    <button id="reveal-toggle" aria-pressed="false">
+        <span class="icon" aria-hidden="true"><i class="fa-solid fa-bullseye"></i></span>
+        <span class="label">Reveal Everything</span>
+    </button>
+
+    <script>
+        // --- Lens & Parallax Logic ---
+        const body = document.getElementById('main-body');
+        const blurContainer = document.getElementById('blur-container');
+        const lensRing = document.getElementById('lens-ring');
+        const parallaxItems = document.querySelectorAll('.parallax');
+        const revealToggle = document.getElementById('reveal-toggle');
+        const revealLabel = revealToggle.querySelector('.label');
+
+        const setMaskPosition = (x, y) => {
+            blurContainer.style.setProperty('--x', x + 'px');
+            blurContainer.style.setProperty('--y', y + 'px');
+        };
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            setMaskPosition(x, y);
+
+            lensRing.style.left = x + 'px';
+            lensRing.style.top = y + 'px';
+
+            // Parallax Effect
+            parallaxItems.forEach(item => {
+                const speed = parseFloat(item.getAttribute('data-speed') || '0.02');
+                const xOffset = (window.innerWidth - x * speed) / 100;
+                const yOffset = (window.innerHeight - y * speed) / 100;
+                item.style.transform = `translateX(${xOffset}px) translateY(${yOffset}px)`;
+            });
+        });
+
+        // Touch support for mobile
+        document.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+            
+            setMaskPosition(x, y);
+            
+            lensRing.style.left = x + 'px';
+            lensRing.style.top = y + 'px';
+        }, { passive: true });
+
+        // Click to expand lens momentarily
+        document.addEventListener('mousedown', () => {
+            lensRing.style.width = '350px';
+            lensRing.style.height = '350px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            lensRing.style.width = '300px';
+            lensRing.style.height = '300px';
+        });
+
+        // Reveal button toggles the fog on/off
+        let isRevealed = false;
+        const setRevealState = (state) => {
+            isRevealed = state;
+            body.classList.toggle('revealed', isRevealed);
+            revealToggle.setAttribute('aria-pressed', String(isRevealed));
+            revealLabel.textContent = isRevealed ? 'Restore the Fog' : 'Reveal Everything';
+        };
+
+        revealToggle.addEventListener('click', () => setRevealState(!isRevealed));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isRevealed) setRevealState(false);
+        });
+    </script>
+</body>
+</html>

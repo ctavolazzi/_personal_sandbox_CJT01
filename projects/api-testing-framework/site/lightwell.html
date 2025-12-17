@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lightwell | Illumination & Interpretation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-paper: #F9F8F4;
+            --text-ink: #2C2C2C;
+            --light-shaft: rgba(255, 255, 255, 0.4);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        
+        h1, h2, h3, .serif-font {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* The Lightwell Effect - A vertical shaft of light */
+        .light-container {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255,255,255,1) 0%, 
+                rgba(255,255,255,0.8) 20%, 
+                rgba(255,255,255,0.0) 100%);
+            opacity: 0.6;
+            filter: blur(40px);
+        }
+
+        /* Dust motes floating in the light */
+        .mote {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float-up linear infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+        }
+
+        /* Civic / Document Styling */
+        .civic-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            backdrop-filter: blur(5px);
+            margin-bottom: 2rem;
+        }
+
+        .drop-cap {
+            float: left;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            line-height: 0.8;
+            margin-right: 0.75rem;
+            margin-top: 0.2rem;
+            color: #555;
+        }
+
+        .fade-in {
+            animation: fadeIn 2s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            color: #555;
+            padding-bottom: 2px;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #888;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- The Light Structure -->
+    <div class="light-container" id="light-shaft"></div>
+
+    <!-- Navigation (Minimal, functional) -->
+    <nav class="w-full p-8 md:p-12 flex justify-between items-baseline relative z-10 max-w-5xl mx-auto">
+        <div class="serif-font text-2xl tracking-wide font-medium italic text-gray-800">
+            The Lightwell
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-light tracking-wide text-gray-600">
+            <a href="#mission" class="nav-link">Ethos</a>
+            <a href="#services" class="nav-link">Process</a>
+            <a href="#contact" class="nav-link">Inquiry</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow w-full max-w-2xl mx-auto px-6 relative z-10 pt-12 pb-24">
+        
+        <!-- Hero Statement -->
+        <section class="mb-24 fade-in">
+            <h1 class="serif-font text-4xl md:text-5xl leading-tight text-gray-800 mb-8 font-light">
+                A quiet space for the <br> 
+                <span class="italic text-gray-500">interpretation</span> of complexity.
+            </h1>
+            <p class="text-lg font-light text-gray-600 leading-relaxed">
+                We provide legibility for life's most overwhelming administrative and research tasks. Not an agency. Not a tool. A vestibule for clarity.
+            </p>
+        </section>
+
+        <!-- The Three Pillars (Civic Vibe) -->
+        <section id="mission" class="space-y-4 fade-in" style="animation-delay: 0.3s;">
+            <div class="civic-card">
+                <span class="text-xs uppercase tracking-widest text-gray-400 block mb-4">01. Illumination</span>
+                <p>
+                    <span class="drop-cap">W</span>hen you are in the dark, movement is dangerous. Our first role is simply to bring light to the situation, identifying the variables, the constraints, and the hidden structures of your problem.
+                </p>
+            </div>
+
+            <div class="civic-card">
+                <span class="text-xs uppercase tracking-widest text-gray-400 block mb-4">02. Interpretation</span>
+                <p>
+                    Information is not understanding. We translate bureaucratic noise, dense records, and fragmented data into a coherent narrative. We turn the "what" into the "meaning."
+                </p>
+            </div>
+
+            <div class="civic-card">
+                <span class="text-xs uppercase tracking-widest text-gray-400 block mb-4">03. Preparation</span>
+                <p>
+                    Clarity leads to decision. Once the environment is visible and the language is translated, we prepare the materials you need to move forward, calmly and effectively.
+                </p>
+            </div>
+        </section>
+
+        <!-- The "Anti-Agency" Statement -->
+        <section class="mt-20 border-t border-gray-200 pt-12 text-center fade-in" style="animation-delay: 0.6s;">
+            <p class="serif-font text-2xl italic text-gray-500 mb-6">
+                "We do not sell brands. We restore order."
+            </p>
+            <div class="text-sm text-gray-400 max-w-md mx-auto">
+                The Lightwell is a private service for civic and personal research. <br>
+                Operating quietly since 2024.
+            </div>
+        </section>
+
+        <!-- Gentle Action -->
+        <div id="contact" class="mt-20 mb-20 flex justify-center fade-in" style="animation-delay: 0.8s;">
+            <a href="mailto:hello@thelightwell.com" class="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#F0EFEC] hover:bg-[#EBE9E4] transition-colors rounded-sm text-gray-700">
+                <span class="serif-font text-lg italic">Enter the Vestibule</span>
+                <i class="fa-solid fa-arrow-right font-light text-xs opacity-50 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="w-full p-8 text-center text-xs text-gray-400 border-t border-gray-200/50 relative z-10">
+        <p>&copy; 2024 The Lightwell. All rights reserved.</p>
+        <p class="mt-2 opacity-50">Part of the Blueguard Water Group</p>
+    </footer>
+
+    <script>
+        // Mote Generation Logic (dust particles in the light)
+        const lightShaft = document.getElementById('light-shaft');
+        
+        function createMote() {
+            const mote = document.createElement('div');
+            mote.classList.add('mote');
+            
+            // Randomize size, position, and speed
+            const size = Math.random() * 3 + 1; // 1px to 4px
+            const left = Math.random() * 100; // 0% to 100% width
+            const duration = Math.random() * 10 + 10; // 10s to 20s animation
+            
+            mote.style.width = `${size}px`;
+            mote.style.height = `${size}px`;
+            mote.style.left = `${left}%`;
+            mote.style.animationDuration = `${duration}s`;
+            
+            lightShaft.appendChild(mote);
+            
+            // Remove mote after animation ends to prevent DOM overload
+            setTimeout(() => {
+                mote.remove();
+            }, duration * 1000);
+        }
+
+        // Generate motes periodically
+        setInterval(createMote, 500);
+
+        // Initial batch
+        for (let i = 0; i < 20; i++) {
+            createMote();
+        }
+    </script>
+</body>
+</html>
