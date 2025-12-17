@@ -1,0 +1,13 @@
+#!/bin/bash
+# QuoteCard CLI shortcut
+# Usage: ./qc "Your quote" --author "Author" --theme lofi
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Load environment from project root
+if [ -f "../../.env" ]; then
+    export $(grep -v '^#' ../../.env | xargs)
+fi
+
+python3 quotecard.py "$@"

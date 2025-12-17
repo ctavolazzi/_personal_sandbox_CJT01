@@ -1,0 +1,9 @@
+{
+  "prompt": "Write a short, engaging Instagram caption for this quote:\n\"I find that the harder I work, the more luck I seem to have.\" - Thomas Jefferson\n\nInclude:\n- A hook (first line that grabs attention)\n- A brief 1-2 sentence reflection\n- 5 relevant hashtags\n- End with @Porchroot\n\nKeep it under 50 words total. No emojis in the first line.",
+  "response": {
+    "text": "The secret to more luck? It\u2019s not magic. Jefferson understood that consistent effort paves the way for opportunity. Keep working, and you'll find your own fortune.\n#WorkHardGetLucky #EffortRewards #CreateYourOwnLuck #DailyMotivation #SuccessMindset\n@Porchroot",
+    "prompt_feedback": ""
+  },
+  "captured_at": "2025-12-08T20:29:12.303669",
+  "model": "gemini-2.5-flash"
+}

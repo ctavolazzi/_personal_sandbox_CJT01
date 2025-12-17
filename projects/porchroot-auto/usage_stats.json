@@ -1,0 +1,24 @@
+{
+  "total_generated": 3,
+  "total_cost": 0.09,
+  "by_theme": {
+    "studio_ghibli": 3
+  },
+  "history": [
+    {
+      "date": "2025-12-09T06:24:26.036091",
+      "theme": "studio_ghibli",
+      "cost": 0.03
+    },
+    {
+      "date": "2025-12-09T06:24:32.107297",
+      "theme": "studio_ghibli",
+      "cost": 0.03
+    },
+    {
+      "date": "2025-12-09T06:24:40.306456",
+      "theme": "studio_ghibli",
+      "cost": 0.03
+    }
+  ]
+}
